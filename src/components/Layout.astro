@@ -1,0 +1,43 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import { Image } from "astro:assets";
+interface Props {
+	title: string;
+	include_nav?: boolean;
+}
+
+const { title, include_nav = true } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+	<body>
+		<nav
+			class="my-4 px-8 w-full flex justify-between items-center print:hidden"
+		>
+			<a href="/" class="text-teal-700 text-lg"
+				>What's for dinner?</a
+			><div class="space-x-4">
+				<a
+					href="/tags"
+					class="text-teal-600 tracking-tight font-sm"
+					>Browse by tags</a>
+			</div>
+		</nav>
+		<slot />
+		<footer class="w-full text-center font-light">
+			<p>
+				<code>{"</>"}</code> by Ingalless
+			</p>
+		</footer>
+	</body>
+</html>

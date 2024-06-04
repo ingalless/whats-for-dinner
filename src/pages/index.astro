@@ -1,0 +1,76 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../components/Layout.astro";
+import { Image } from "astro:assets";
+
+const recipes = await getCollection("recipes");
+---
+
+<Layout title="What's For Dinner?">
+	<main>
+		<section class="mt-24 mx-8">
+			<p class="text-2xl max-w-lg">
+				Recipes, without the ads.
+			</p>
+			<div class="mt-24">
+				<h2
+					class="text-xl mb-2 text-teal-900 font-bold"
+				>
+					Our Recipes.
+				</h2>
+
+				<div
+					class="columns-1 md:columns-2 xl:columns-3 gap-7"
+				>
+					{
+						recipes.map((r) => (
+							<a
+								class="block break-inside-avoid mb-8"
+								href={`/recipes/${r.slug}`}
+							>
+								<Image
+									class="h-auto max-w-full rounded-lg"
+									src={
+										r
+											.data
+											.cover
+									}
+									alt={
+										r
+											.data
+											.coverAlt
+									}
+								/>
+								<span class="font-bold">
+									{
+										r
+											.data
+											.title
+									}
+								</span>
+							</a>
+						))
+					}
+				</div>
+			</div>
+		</section>
+		<section class="mt-24 py-8 md:p-24 w-full bg-teal-900">
+			<div class="mx-8 text-teal-50">
+				<h2 class="text-teal-50 text-xl">Why?</h2><p
+					class="max-w-full text-justify md:max-w-xl text-sm"
+				>
+					Each week I'm asked "What should we have
+					for dinner this week?". This question
+					stumps me. "But it's okay" I think to
+					myself, "I can Google it!" But doing so
+					only results in disappointment as I
+					fight ads, popups and woefully slow
+					websites. This website is an attempt to
+					capture the recipes we enjoy and share
+					them without any of the nonsense that
+					comes with mainstream recipe websites.
+				</p>
+			</div>
+		</section>
+	</main>
+</Layout>

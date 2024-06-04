@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../components/Layout.astro";
+import { Image } from "astro:assets";
+
+export const prerender = true;
+export async function getStaticPaths() {
+	const entries = await getCollection("recipes");
+	return entries.map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Layout title={entry.data.title}>
+	<section class="container mx-auto py-16 space-y-16 md:w-3/5">
+		<article class="prose">
+			<Image
+				class="rounded-lg"
+				src={entry.data.cover}
+				alt={entry.data.coverAlt}
+			/>
+			<Content />
+		</article>
+	</section>
+	<section class="container mx-auto py-16 md:w-3/5">
+		<h2 class="text-teal-600 font-bold">Tags</h2>
+		<div class="space-x-2 mt-2">
+			{
+				entry.data.tags.map((tag) => (
+					<a
+						class="bg-teal-50 rounded-lg px-2 py-1"
+						href={`/tags/${tag}`}
+					>
+						#{tag}
+					</a>
+				))
+			}
+		</div>
+	</section>
+</Layout>
